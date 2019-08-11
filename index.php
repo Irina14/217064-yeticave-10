@@ -43,6 +43,20 @@ $lots = [
         'image' => 'img/lot-6.jpg'
     ],
 ];
+
+function format_sum($number) {
+    $number_rounded = ceil($number);
+
+    if ($number_rounded >= 1000) {
+        $number_format = number_format($number_rounded, 0, '.', ' ');
+    }
+    else {
+        $number_format = $number_rounded;
+    }
+
+    $sum = $number_format . ' ' . '&#8381;';
+    return $sum;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -116,7 +130,7 @@ $lots = [
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=$value['cost']; ?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?=format_sum($value['cost']); ?></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
