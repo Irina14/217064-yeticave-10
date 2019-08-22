@@ -22,7 +22,7 @@ CREATE TABLE lots (
   date_end DATETIME NOT NULL,
   step_rate INT NOT NULL,
   cost_current DECIMAL(8,2) NOT NULL,
-  winner_id INT DEFAULT 0;
+  winner_id INT DEFAULT 0
 );
 
 CREATE TABLE rates (
