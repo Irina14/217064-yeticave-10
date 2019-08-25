@@ -49,3 +49,19 @@ function db_select_data($link, $sql) {
 
     return $data;
 };
+
+function show_page_404($categories, $user_name, $is_auth) {
+    $page_content = include_template('404.php', [
+        'categories' => $categories
+    ]);
+
+    $layout_content = include_template('layout.php', [
+        'content' => $page_content,
+        'categories' => $categories,
+        'title' => '404',
+        'user_name' => $user_name,
+        'is_auth' => $is_auth
+    ]);
+
+    print($layout_content);
+};
