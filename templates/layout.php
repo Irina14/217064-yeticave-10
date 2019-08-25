@@ -42,7 +42,7 @@
     </div>
 </header>
 
-<main class="container">
+<main <?php if (basename($_SERVER['PHP_SELF']) === 'index.php'): ?>class="container"<?php endif; ?>>
     <?=$content; ?>
 </main>
 </div>

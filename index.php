@@ -14,7 +14,7 @@ else {
     $sql = 'SELECT name, code FROM categories';
     $categories = db_select_data($link, $sql);
 
-    $sql = 'SELECT l.name, cost_start, image, c.name AS category, date_end FROM lots l '
+    $sql = 'SELECT l.name, cost_start, image, c.name AS category, date_end, l.id FROM lots l '
          . 'JOIN categories c ON l.category_id = c.id '
          . 'WHERE date_end > NOW() ORDER BY date_add DESC LIMIT 9';
     $lots = db_select_data($link, $sql);
