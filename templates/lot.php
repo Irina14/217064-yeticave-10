@@ -26,10 +26,10 @@
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
                         <span class="lot-item__amount">Текущая цена</span>
-                        <span class="lot-item__cost"><?=format_sum(htmlspecialchars($lot['cost_current'])); ?></span>
+                        <span class="lot-item__cost"><?=format_sum(htmlspecialchars($lot['cost_start'])); ?></span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span><?=format_sum($lot['cost_current'] + $lot['step_rate']); ?></span>
+                        Мин. ставка <span><?=format_sum($lot['cost_start'] + $lot['step_rate']); ?></span>
                     </div>
                 </div>
                 <!-- <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post" autocomplete="off">

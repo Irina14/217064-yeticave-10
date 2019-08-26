@@ -17,7 +17,7 @@ else {
     if (isset($_GET['id'])) {
         $id = [intval($_GET['id'])];
 
-        $sql = 'SELECT l.name, image, c.name AS category, description, cost_current, step_rate, date_end FROM lots l '
+        $sql = 'SELECT l.name, image, c.name AS category, description, cost_start, step_rate, date_end FROM lots l '
              . 'JOIN categories c ON l.category_id = c.id '
              . 'WHERE l.id = ?';
 
