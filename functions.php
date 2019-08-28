@@ -51,9 +51,7 @@ function db_select_data($link, $sql) {
 };
 
 function show_page_404($categories, $user_name, $is_auth) {
-    $page_content = include_template('404.php', [
-        'categories' => $categories
-    ]);
+    $page_content = include_template('404.php', ['categories' => $categories]);
 
     $layout_content = include_template('layout.php', [
         'content' => $page_content,
@@ -65,3 +63,66 @@ function show_page_404($categories, $user_name, $is_auth) {
 
     print($layout_content);
 };
+
+function get_post_val($name) {
+    return $_POST[$name] ?? '';
+};
+
+function validate_category($name, $allowed_list) {
+    $id = $_POST[$name];
+
+    if (!in_array($id, $allowed_list)) {
+        return 'Указана несуществующая категория';
+    }
+
+    return null;
+};
+
+function validate_cost_start() {
+    $cost_start = $_POST['lot-rate'];
+
+    if (!(is_numeric($cost_start) && $cost_start > 0)) {
+        return 'Начальная цена должна быть числом больше нуля';
+    }
+
+    return null;
+};
+
+function validate_step_rate() {
+    $step_rate = $_POST['lot-step'];
+
+    if (!(is_numeric($step_rate) && is_int($step_rate + 0) && $step_rate > 0)) {
+        return 'Шаг ставки должен быть целым числом больше нуля';
+    }
+
+    return null;
+};
+
+function validate_date_end() {
+    $date_end = $_POST['lot-date'];
+
+    $date_end_unix = strtotime($date_end);
+    $date_now_unix = strtotime('now');
+    $diff = $date_end_unix - $date_now_unix;
+
+    if (!(is_date_valid($date_end) && $diff >= 86400)) {
+        return 'Дата должна быть в формате ГГГГ-ММ-ДД и больше текущей даты минимум на одни сутки';
+    }
+
+    return null;
+};
+
+function get_filename($file_type) {
+    $filename = '';
+
+    if ($file_type === 'image/png') {
+        $filename = uniqid() . '.png';
+    }
+
+    if ($file_type === 'image/jpeg') {
+        $filename = uniqid() . '.jpg';
+    }
+
+    return $filename;
+};
+
