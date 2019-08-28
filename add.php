@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             $lot_id = mysqli_insert_id($link);
             header('Location: lot.php?id=' . $lot_id);
+            die();
         }
         else {
             $error = mysquli_error($link);
