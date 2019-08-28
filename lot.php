@@ -11,7 +11,7 @@ if (!$link) {
     print('Ошибка подключения: ' . $error);
 }
 else {
-    $sql = 'SELECT name, code FROM categories';
+    $sql = 'SELECT name FROM categories';
     $categories = db_select_data($link, $sql);
 
     if (isset($_GET['id'])) {
