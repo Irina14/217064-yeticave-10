@@ -6,12 +6,6 @@ require_once('init.php');
 $is_auth = rand(0, 1);
 $user_name = 'Irina';
 
-if (!$link) {
-    $error = mysqli_connect_error();
-    print('Ошибка подключения: ' . $error);
-    die();
-}
-
 $sql = 'SELECT id, name FROM categories';
 $categories = db_select_data($link, $sql);
 $cats_ids = array_column($categories, 'id');
