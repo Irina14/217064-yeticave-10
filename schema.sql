@@ -38,7 +38,7 @@ CREATE TABLE users (
   email CHAR(255) NOT NULL UNIQUE,
   name CHAR(255) NOT NULL,
   password CHAR(100) NOT NULL,
-  avatar CHAR(255),
+  avatar CHAR(255) DEFAULT 0,
   contact CHAR(255) NOT NULL
 );
 
