@@ -90,8 +90,13 @@ function validate_cost_start() {
 
 function validate_step_rate() {
     $step_rate = $_POST['lot-step'];
+    $options = array(
+        'options' => array(
+            'min_range' => 1
+        )
+    );
 
-    if (!(is_numeric($step_rate) && is_int($step_rate + 0) && $step_rate > 0)) {
+    if (!(filter_var($step_rate, FILTER_VALIDATE_INT, $options))) {
         return 'Шаг ставки должен быть целым числом больше нуля';
     }
 
@@ -100,7 +105,6 @@ function validate_step_rate() {
 
 function validate_date_end() {
     $date_end = $_POST['lot-date'];
-
     $date_end_unix = strtotime($date_end);
     $date_now_unix = strtotime('now');
     $diff = $date_end_unix - $date_now_unix;
