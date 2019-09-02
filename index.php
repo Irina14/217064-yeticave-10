@@ -3,11 +3,7 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('init.php');
 
-$is_auth = rand(0, 1);
-$user_name = 'Irina';
-
-$sql = 'SELECT name, code FROM categories';
-$categories = db_select_data($link, $sql);
+$categories = get_categories($link);
 
 $sql = 'SELECT l.name, cost_start, image, c.name AS category, date_end, l.id FROM lots l '
         . 'JOIN categories c ON l.category_id = c.id '
@@ -22,9 +18,7 @@ $page_content = include_template('main.php', [
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => 'Главная',
-    'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'title' => 'Главная'
 ]);
 
 print($layout_content);

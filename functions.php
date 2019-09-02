@@ -50,15 +50,13 @@ function db_select_data($link, $sql) {
     return $data;
 };
 
-function show_page_404($categories, $user_name, $is_auth) {
+function show_page_404($categories) {
     $page_content = include_template('404.php', ['categories' => $categories]);
 
     $layout_content = include_template('layout.php', [
         'content' => $page_content,
         'categories' => $categories,
-        'title' => '404',
-        'user_name' => $user_name,
-        'is_auth' => $is_auth
+        'title' => '404'
     ]);
 
     print($layout_content);
@@ -130,3 +128,9 @@ function get_filename($file_type) {
     return $filename;
 };
 
+function get_categories($link) {
+    $sql = 'SELECT id, name, code FROM categories';
+    $categories = db_select_data($link, $sql);
+
+    return $categories;
+}

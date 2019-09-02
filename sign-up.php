@@ -3,11 +3,12 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('init.php');
 
-$is_auth = rand(0, 1);
-$user_name = 'Irina';
+if (isset($_SESSION['user'])) {
+    http_response_code(403);
+    die();
+}
 
-$sql = 'SELECT name FROM categories';
-$categories = db_select_data($link, $sql);
+$categories = get_categories($link);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form = $_POST;
@@ -60,9 +61,7 @@ else {
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => 'Регистрация',
-    'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'title' => 'Регистрация'
 ]);
 
 print($layout_content);

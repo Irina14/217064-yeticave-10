@@ -3,11 +3,7 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('init.php');
 
-$is_auth = rand(0, 1);
-$user_name = 'Irina';
-
-$sql = 'SELECT name FROM categories';
-$categories = db_select_data($link, $sql);
+$categories = get_categories($link);
 
 if (isset($_GET['id'])) {
     $id = [intval($_GET['id'])];
@@ -39,17 +35,15 @@ if (isset($_GET['id'])) {
         $layout_content = include_template('layout.php', [
             'content' => $page_content,
             'categories' => $categories,
-            'title' => $title,
-            'user_name' => $user_name,
-            'is_auth' => $is_auth
+            'title' => $title
         ]);
 
         print($layout_content);
     }
     else {
-        show_page_404($categories, $user_name, $is_auth);
+        show_page_404($categories);
     }
 }
 else {
-    show_page_404($categories, $user_name, $is_auth);
+    show_page_404($categories);
 }

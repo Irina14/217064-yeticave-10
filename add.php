@@ -3,11 +3,13 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('init.php');
 
-$is_auth = rand(0, 1);
-$user_name = 'Irina';
+if (!isset($_SESSION['user'])) {
+    http_response_code(403);
+    print('Ошибка доступа: Требуется войти в свою учетную запись!');
+    die();
+}
 
-$sql = 'SELECT id, name FROM categories';
-$categories = db_select_data($link, $sql);
+$categories = get_categories($link);
 $cats_ids = array_column($categories, 'id');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -71,7 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     }
     else {
-        $sql = 'INSERT INTO lots (date_add, name, category_id, description, cost_start, step_rate, date_end, image, user_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, 1)';
+        $user_id = (int) $_SESSION['user']['id'];
+        $sql = "INSERT INTO lots (date_add, name, category_id, description, cost_start, step_rate, date_end, image, user_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, $user_id)";
         $stmt = db_get_prepare_stmt($link, $sql, $lot);
         $result = mysqli_stmt_execute($stmt);
 
@@ -94,9 +97,7 @@ else {
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'categories' => $categories,
-    'title' => 'Добавление лота',
-    'user_name' => $user_name,
-    'is_auth' => $is_auth
+    'title' => 'Добавление лота'
 ]);
 
 print($layout_content);
