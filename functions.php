@@ -339,8 +339,11 @@ function get_date_rate($date) {
     if ($days === 0) {
         $hours = intval($date_diff / 3600);
 
-        if ($hours > 0) {
+        if ($hours > 0 && $hours < 12) {
             $result = "$hours " . get_noun_plural_form($hours, 'час', 'часа', 'часов') . ' назад';
+        }
+        elseif ($hours > 12) {
+            $result = 'Вчера, в ' .  date_format(date_create($date), 'H:i');
         }
         else {
             $minutes = intval(($date_diff % 3600) / 60);

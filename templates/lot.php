@@ -21,11 +21,12 @@
             <div class="lot-item__state">
             <?php $time = get_date_range($lot['date_end']); ?>
             <?php $time_finish = strtotime($lot['date_end']) <= time(); ?>
-                <div class="lot-item__timer timer <?php if ($time[0] === '00'): ?>timer--finishing<?php endif; ?>">
+                <div class="lot-item__timer timer <?php if ($time[0] === '00'): ?>timer--finishing<?php endif; ?>
+                <?php if ($time_finish): ?>timer--end<?php endif; ?>">
                     <?php if (!$time_finish): ?>
                     <?=$time[0] . ':' . $time[1]; ?>
                     <?php else: ?>
-                    Лот закрыт
+                    Торги окончены
                     <?php endif; ?>
                 </div>
                 <div class="lot-item__cost-state">
@@ -51,7 +52,6 @@
                 </form>
                 <?php endif; ?>
             </div>
-            <?php if (isset($history)) : ?>
             <div class="history">
                 <h3>История ставок (<span><?=count($history); ?></span>)</h3>
                 <table class="history__list">
@@ -64,7 +64,6 @@
                     <?php endforeach; ?>
                 </table>
             </div>
-            <?php endif; ?>
         </div>
     </div>
 </section>

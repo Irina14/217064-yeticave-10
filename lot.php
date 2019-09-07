@@ -11,8 +11,8 @@ if (isset($_GET['id'])) {
     $user_rate_last = intval($rate_last['user_id']);
 
     $sql = 'SELECT l.name, image, c.name AS category, description, cost_start, step_rate, date_end, user_id FROM lots l '
-            . 'JOIN categories c ON l.category_id = c.id '
-            . 'WHERE l.id = ?';
+         . 'JOIN categories c ON l.category_id = c.id '
+         . 'WHERE l.id = ?';
 
     $stmt = db_get_prepare_stmt($link, $sql, [$id]);
     mysqli_stmt_execute($stmt);
@@ -38,7 +38,6 @@ if (isset($_GET['id'])) {
             'user_rate_last' => $user_rate_last
 
         ]);
-
     }
     else {
         show_page_404($categories);
