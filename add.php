@@ -1,5 +1,4 @@
 <?php
-require_once('helpers.php');
 require_once('functions.php');
 require_once('init.php');
 
@@ -73,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     }
     else {
-        $user_id = (int) $_SESSION['user']['id'];
-        $sql = "INSERT INTO lots (date_add, name, category_id, description, cost_start, step_rate, date_end, image, user_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, $user_id)";
+        $lot['user_id'] = intval($_SESSION['user']['id']);
+        $sql = "INSERT INTO lots (date_add, name, category_id, description, cost_start, step_rate, date_end, image, user_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = db_get_prepare_stmt($link, $sql, $lot);
         $result = mysqli_stmt_execute($stmt);
 

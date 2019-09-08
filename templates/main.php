@@ -24,8 +24,10 @@
                 <h3 class="lot__title"><a class="text-link" href="lot.php?id=<?=$value['id']; ?>"><?=htmlspecialchars($value['name']); ?></a></h3>
                 <div class="lot__state">
                     <div class="lot__rate">
+                        <?php $cost_max = get_rate_last($link, $value['id'])['cost']; ?>
+                        <?php $cost_current = $cost_max ?? $value['cost_start']; ?>
                         <span class="lot__amount">Стартовая цена</span>
-                        <span class="lot__cost"><?=format_sum(htmlspecialchars($value['cost_start'])); ?></span>
+                        <span class="lot__cost"><?=format_sum(htmlspecialchars($cost_current)); ?></span>
                     </div>
                     <?php $time = get_date_range($value['date_end']); ?>
                     <div class="lot__timer timer <?php if ($time[0] === '00'): ?>timer--finishing<?php endif; ?>">

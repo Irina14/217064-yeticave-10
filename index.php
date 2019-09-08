@@ -1,5 +1,4 @@
 <?php
-require_once('helpers.php');
 require_once('functions.php');
 require_once('init.php');
 
@@ -12,7 +11,8 @@ $lots = db_select_data($link, $sql);
 
 $page_content = include_template('main.php', [
     'categories' => $categories,
-    'lots' => $lots
+    'lots' => $lots,
+    'link' => $link
 ]);
 
 $layout_content = include_template('layout.php', [
