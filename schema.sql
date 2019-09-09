@@ -53,3 +53,4 @@ CREATE UNIQUE INDEX name ON categories(name);
 CREATE INDEX category_id ON lots(category_id);
 CREATE INDEX date_end ON lots(date_end);
 CREATE INDEX cost ON rates(cost);
+CREATE FULLTEXT INDEX lot_search ON lots(name, description);

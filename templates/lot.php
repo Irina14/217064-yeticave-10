@@ -45,7 +45,7 @@
                     <?php $error = $errors['cost'] ?? ""; ?>
                     <p class="lot-item__form-item form__item <?=$classname; ?>">
                         <label for="cost">Ваша ставка</label>
-                        <input id="cost" type="text" name="cost" placeholder="<?=$cost_min; ?>">
+                        <input id="cost" type="text" name="cost" placeholder="<?=$cost_min; ?>" value="<?=get_post_val('cost'); ?>">
                         <span class="form__error"><?=$error; ?></span>
                     </p>
                     <button type="submit" class="button">Сделать ставку</button>
