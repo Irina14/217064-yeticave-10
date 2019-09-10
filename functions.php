@@ -182,7 +182,22 @@ function db_select_data($link, $sql) {
     $result = mysqli_query($link, $sql);
 
     if ($result) {
-        $data= mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    else {
+        $error = mysquli_error($link);
+        print('Ошибка: ' . $error);
+    }
+
+    return $data;
+};
+
+function db_select_data_row($link, $sql) {
+    $data = [];
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        $data = mysqli_fetch_assoc($result);
     }
     else {
         $error = mysquli_error($link);
