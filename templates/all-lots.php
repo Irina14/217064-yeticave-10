@@ -9,7 +9,7 @@
 </nav>
 <div class="container">
     <section class="lots">
-        <h2>Результаты поиска по запросу «<span><?=htmlspecialchars($item); ?></span>»</h2>
+        <h2>Все лоты в категории <span><?=htmlspecialchars($_GET['category']); ?></span></h2>
         <?php if (count($lots)): ?>
         <ul class="lots__list">
             <?php foreach ($lots as $value): ?>
@@ -37,7 +37,7 @@
             <?php endforeach; ?>
         </ul>
         <?php else: ?>
-        Ничего не найдено по вашему запросу.
+        В данной категории пока нет лотов.
         <?php endif; ?>
     </section>
     <?=include_template('_pagination.php', [

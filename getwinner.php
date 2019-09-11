@@ -23,7 +23,16 @@ foreach ($lots_end as $value) {
             $sql = 'SELECT l.name AS lot, l.id, u.name, u.email FROM lots l '
                  . 'JOIN users u ON l.winner_id = u.id '
                  . 'WHERE l.id =' . $value['id'];
-            $lot = db_select_data_row($link, $sql);
+            $lot = [];
+            $result = mysqli_query($link, $sql);
+
+            if ($result) {
+                $lot = mysqli_fetch_assoc($result);
+            }
+            else {
+                $error = mysquli_error($link);
+                print('Ошибка: ' . $error);
+            }
 
             if (count($lot)) {
                 $message = new Swift_Message();

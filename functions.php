@@ -192,21 +192,6 @@ function db_select_data($link, $sql) {
     return $data;
 };
 
-function db_select_data_row($link, $sql) {
-    $data = [];
-    $result = mysqli_query($link, $sql);
-
-    if ($result) {
-        $data = mysqli_fetch_assoc($result);
-    }
-    else {
-        $error = mysquli_error($link);
-        print('Ошибка: ' . $error);
-    }
-
-    return $data;
-};
-
 function show_page_404($categories) {
     $page_content = include_template('404.php', ['categories' => $categories]);
 

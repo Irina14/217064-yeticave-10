@@ -42,12 +42,6 @@ CREATE TABLE users (
   contact CHAR(255) NOT NULL
 );
 
-CREATE TABLE winners (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  lot_id INT NOT NULL,
-  user_id INT NOT NULL
-);
-
 CREATE UNIQUE INDEX email ON users(email);
 CREATE UNIQUE INDEX name ON categories(name);
 CREATE INDEX category_id ON lots(category_id);
