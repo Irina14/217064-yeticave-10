@@ -18,16 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
 
     $rules = [
-        'category' => function() use ($cats_ids) {
+        'category' => function () use ($cats_ids) {
             return validate_category('category', $cats_ids);
         },
-        'lot-rate' => function() {
+        'lot-rate' => function () {
             return validate_cost_start();
         },
-        'lot-step' => function() {
+        'lot-step' => function () {
             return validate_step_rate();
         },
-        'lot-date' => function() {
+        'lot-date' => function () {
             return validate_date_end();
         }
     ];
@@ -53,14 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($file_type !== 'image/png' && $file_type !== 'image/jpeg') {
             $errors['file'] = 'Допустимые форматы файлов: jpg, jpeg, png';
-        }
-        else {
+        } else {
             $filename = get_filename($file_type);
             $lot['path'] = 'uploads/' . $filename;
             move_uploaded_file($tmp_name, 'uploads/' . $filename);
         }
-    }
-    else {
+    } else {
         $errors['file'] = 'Загрузите файл';
     }
 
@@ -70,8 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'errors' => $errors,
             'categories' => $categories
         ]);
-    }
-    else {
+    } else {
         $lot['user_id'] = intval($_SESSION['user']['id']);
         $sql = "INSERT INTO lots (date_add, name, category_id, description, cost_start, step_rate, date_end, image, user_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = db_get_prepare_stmt($link, $sql, $lot);
@@ -81,15 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lot_id = mysqli_insert_id($link);
             header('Location: lot.php?id=' . $lot_id);
             die();
-        }
-        else {
+        } else {
             $error = mysquli_error($link);
             print('Ошибка: ' . $error);
         }
-
     }
-}
-else {
+} else {
     $page_content = include_template('add.php', ['categories' => $categories]);
 }
 

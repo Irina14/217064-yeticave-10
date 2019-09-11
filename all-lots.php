@@ -9,7 +9,7 @@ $lots = [];
 $items_count = [];
 $pages = 1;
 $pages_count = 1;
-$page_items = 3;
+$page_items = 9;
 
 if ($category) {
     $sql = 'SELECT COUNT(*) as count FROM lots l '
@@ -22,8 +22,7 @@ if ($category) {
 
     if ($result) {
         $items_count = mysqli_fetch_assoc($result)['count'];
-    }
-    else {
+    } else {
         $error = mysquli_error($link);
         print('Ошибка: ' . $error);
     }
@@ -43,8 +42,7 @@ if ($category) {
 
     if ($result) {
         $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-    else {
+    } else {
         $error = mysquli_error($link);
         print('Ошибка: ' . $error);
     }

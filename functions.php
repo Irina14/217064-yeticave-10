@@ -13,7 +13,8 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-function is_date_valid(string $date) : bool {
+function is_date_valid(string $date) : bool
+{
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
 
@@ -29,7 +30,8 @@ function is_date_valid(string $date) : bool {
  *
  * @return mysqli_stmt Подготовленное выражение
  */
-function db_get_prepare_stmt($link, $sql, $data = []) {
+function db_get_prepare_stmt($link, $sql, $data = [])
+{
     $stmt = mysqli_prepare($link, $sql);
 
     if ($stmt === false) {
@@ -46,11 +48,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
 
             if (is_int($value)) {
                 $type = 'i';
-            }
-            else if (is_string($value)) {
+            } elseif (is_string($value)) {
                 $type = 's';
-            }
-            else if (is_double($value)) {
+            } elseif (is_double($value)) {
                 $type = 'd';
             }
 
@@ -96,7 +96,7 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form (int $number, string $one, string $two, string $many): string
+function get_noun_plural_form(int $number, string $one, string $two, string $many): string
 {
     $number = (int) $number;
     $mod10 = $number % 10;
@@ -126,7 +126,8 @@ function get_noun_plural_form (int $number, string $one, string $two, string $ma
  * @param array $data Ассоциативный массив с данными для шаблона
  * @return string Итоговый HTML
  */
-function include_template($name, array $data = []) {
+function include_template($name, array $data = [])
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -143,13 +144,13 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
-function format_sum($number) {
+function format_sum($number)
+{
     $number_rounded = ceil($number);
 
     if ($number_rounded >= 1000) {
         $number_format = number_format($number_rounded, 0, '.', ' ');
-    }
-    else {
+    } else {
         $number_format = $number_rounded;
     }
 
@@ -157,7 +158,8 @@ function format_sum($number) {
     return $sum;
 };
 
-function get_date_range($date) {
+function get_date_range($date)
+{
     $result = [];
     $date_end = strtotime($date);
     $date_diff = $date_end - time();
@@ -177,14 +179,14 @@ function get_date_range($date) {
     return $result;
 };
 
-function db_select_data($link, $sql) {
+function db_select_data($link, $sql)
+{
     $data = [];
     $result = mysqli_query($link, $sql);
 
     if ($result) {
         $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-    else {
+    } else {
         $error = mysquli_error($link);
         print('Ошибка: ' . $error);
     }
@@ -192,7 +194,8 @@ function db_select_data($link, $sql) {
     return $data;
 };
 
-function show_page_404($categories) {
+function show_page_404($categories)
+{
     $page_content = include_template('404.php', ['categories' => $categories]);
 
     $layout_content = include_template('layout.php', [
@@ -204,11 +207,13 @@ function show_page_404($categories) {
     print($layout_content);
 };
 
-function get_post_val($name) {
+function get_post_val($name)
+{
     return $_POST[$name] ?? '';
 };
 
-function validate_category($name, $allowed_list) {
+function validate_category($name, $allowed_list)
+{
     $id = $_POST[$name];
 
     if (!in_array($id, $allowed_list)) {
@@ -218,7 +223,8 @@ function validate_category($name, $allowed_list) {
     return null;
 };
 
-function validate_cost_start() {
+function validate_cost_start()
+{
     $cost_start = $_POST['lot-rate'];
 
     if (!(is_numeric($cost_start) && $cost_start > 0)) {
@@ -228,7 +234,8 @@ function validate_cost_start() {
     return null;
 };
 
-function validate_step_rate() {
+function validate_step_rate()
+{
     $step_rate = $_POST['lot-step'];
     $options = array(
         'options' => array(
@@ -243,7 +250,8 @@ function validate_step_rate() {
     return null;
 };
 
-function validate_date_end() {
+function validate_date_end()
+{
     $date_end = $_POST['lot-date'];
     $date_end_unix = strtotime($date_end);
     $date_now_unix = strtotime('now');
@@ -256,7 +264,8 @@ function validate_date_end() {
     return null;
 };
 
-function validate_rate($cost_min) {
+function validate_rate($cost_min)
+{
     $rate = $_POST['cost'];
     $options = array(
         'options' => array(
@@ -271,7 +280,8 @@ function validate_rate($cost_min) {
     return null;
 }
 
-function get_filename($file_type) {
+function get_filename($file_type)
+{
     $filename = '';
 
     if ($file_type === 'image/png') {
@@ -285,14 +295,16 @@ function get_filename($file_type) {
     return $filename;
 };
 
-function get_categories($link) {
+function get_categories($link)
+{
     $sql = 'SELECT id, name, code FROM categories';
     $categories = db_select_data($link, $sql);
 
     return $categories;
 };
 
-function get_rate_last($link, $id) {
+function get_rate_last($link, $id)
+{
     $rate_last = [];
     $sql = 'SELECT cost, date_add, user_id FROM rates WHERE lot_id = ? ORDER BY date_add DESC LIMIT 1';
     $stmt = db_get_prepare_stmt($link, $sql, [$id]);
@@ -301,8 +313,7 @@ function get_rate_last($link, $id) {
 
     if ($result) {
         $rate_last = mysqli_fetch_assoc($result);
-    }
-    else {
+    } else {
         $error = mysquli_error($link);
         print('Ошибка: ' . $error);
     }
@@ -310,7 +321,8 @@ function get_rate_last($link, $id) {
     return $rate_last;
 };
 
-function get_history($link, $id) {
+function get_history($link, $id)
+{
     $history = [];
     $sql = 'SELECT r.date_add, cost, u.name FROM rates r '
           . 'JOIN users u ON r.user_id = u.id '
@@ -322,8 +334,7 @@ function get_history($link, $id) {
 
     if ($result) {
         $history = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-    else {
+    } else {
         $error = mysquli_error($link);
         print('Ошибка: ' . $error);
     }
@@ -331,7 +342,8 @@ function get_history($link, $id) {
     return $history;
 };
 
-function get_date_rate($date) {
+function get_date_rate($date)
+{
     $date_add = strtotime($date);
     $date_diff = time() - $date_add;
     $days = intval($date_diff / 86400);
@@ -341,22 +353,18 @@ function get_date_rate($date) {
 
         if ($hours > 0 && $hours < 12) {
             $result = "$hours " . get_noun_plural_form($hours, 'час', 'часа', 'часов') . ' назад';
-        }
-        elseif ($hours > 12) {
+        } elseif ($hours > 12) {
             $result = 'Вчера, в ' .  date_format(date_create($date), 'H:i');
-        }
-        else {
+        } else {
             $minutes = intval(($date_diff % 3600) / 60);
 
             if ($minutes === 0) {
                 $result = 'меньше минуты назад';
-            }
-            else {
+            } else {
                 $result = "$minutes " . get_noun_plural_form($minutes, 'минута', 'минуты', 'минут') . ' назад';
             }
         }
-    }
-    else {
+    } else {
         $result = date_format(date_create($date), "d.m.y в H:i");
     }
 

@@ -32,8 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (mysqli_num_rows($result) > 0) {
             $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
-        }
-        else {
+        } else {
             $password = password_hash($form['password'], PASSWORD_DEFAULT);
 
             $sql = 'INSERT INTO users (date_add, email, name, password, contact) VALUES (NOW(), ?, ?, ?, ?)';
@@ -52,8 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'errors' => $errors,
         'categories' => $categories
     ]);
-}
-else {
+} else {
     $page_content = include_template('sign-up.php', ['categories' => $categories]);
 }
 

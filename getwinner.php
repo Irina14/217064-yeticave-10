@@ -1,5 +1,5 @@
 <?php
-require_once ('vendor/autoload.php');
+require_once('vendor/autoload.php');
 require_once('functions.php');
 require_once('init.php');
 
@@ -28,8 +28,7 @@ foreach ($lots_end as $value) {
 
             if ($result) {
                 $lot = mysqli_fetch_assoc($result);
-            }
-            else {
+            } else {
                 $error = mysquli_error($link);
                 print('Ошибка: ' . $error);
             }
@@ -47,12 +46,9 @@ foreach ($lots_end as $value) {
             if (!count($lot) || !$result) {
                 print('Не удалось отправить рассылку');
             }
-        }
-        else {
+        } else {
             $error = mysquli_error($link);
             print('Ошибка: ' . $error);
         }
-
     }
-
 }

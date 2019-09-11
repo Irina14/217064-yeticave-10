@@ -26,10 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'errors' => $errors,
             'categories' => $categories
         ]);
-    }
-    else {
+    } else {
         $email = mysqli_real_escape_string($link, $form['email']);
-	    $sql = "SELECT * FROM users WHERE email = '$email'";
+        $sql = "SELECT * FROM users WHERE email = '$email'";
         $result = mysqli_query($link, $sql);
         $user = $result ? mysqli_fetch_array($result, MYSQLI_ASSOC) : null;
 
@@ -42,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: index.php');
             die();
         }
-
     }
 
     $page_content = include_template('login.php', [
@@ -50,8 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'errors' => $errors,
         'categories' => $categories
     ]);
-}
-else {
+} else {
     $page_content = include_template('login.php', ['categories' => $categories]);
 
     if (isset($_SESSION['user'])) {
