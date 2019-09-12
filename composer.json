@@ -1,0 +1,13 @@
+{
+    "name": "irinapykina/yeticave",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Irina14",
+            "email": "ira1786@bk.ru"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}

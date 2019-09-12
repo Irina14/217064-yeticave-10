@@ -2,7 +2,7 @@
     <ul class="nav__list container">
         <?php foreach ($categories as $value): ?>
         <li class="nav__item">
-            <a href="pages/all-lots.html"><?=htmlspecialchars($value['name']); ?></a>
+            <a href="all-lots.php?category=<?=$value['name']; ?>"><?=htmlspecialchars($value['name']); ?></a>
         </li>
         <?php endforeach; ?>
     </ul>
@@ -12,10 +12,8 @@
     <?php if (count($rates)): ?>
     <table class="rates__list">
     <?php foreach ($rates as $value): ?>
-    <?php $rate_last = get_rate_last($link, $value['lot_id']); ?>
-    <?php $user_rate_last = intval($rate_last['user_id']); ?>
     <?php $time_finish = strtotime($value['date_end']) <= time(); ?>
-    <?php $user_win = $user_rate_last === intval($_SESSION['user']['id']); ?>
+    <?php $user_win = $value['winner_id'] === intval($_SESSION['user']['id']); ?>
     <tr class="rates__item <?php if ($time_finish && !$user_win): ?>rates__item--end<?php endif; ?>
     <?php if ($time_finish && $user_win): ?>rates__item--win<?php endif; ?>">
         <td class="rates__info">

@@ -6,7 +6,7 @@ $categories = get_categories($link);
 $rates = [];
 
 $id = $_SESSION['user']['id'];
-$sql = 'SELECT r.date_add, r.cost, r.lot_id, l.image, l.name, l.date_end, c.name AS category, u.contact FROM rates r '
+$sql = 'SELECT r.date_add, r.cost, r.lot_id, l.image, l.name, l.date_end, c.name AS category, u.contact, l.winner_id FROM rates r '
      . 'JOIN lots l ON r.lot_id = l.id '
      . 'JOIN categories c ON l.category_id = c.id '
      . 'JOIN users u ON l.user_id = u.id '
