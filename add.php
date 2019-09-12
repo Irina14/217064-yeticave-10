@@ -22,13 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return validate_category('category', $cats_ids);
         },
         'lot-rate' => function () {
-            return validate_cost_start();
+            return validate_cost_start('lot-rate');
         },
         'lot-step' => function () {
-            return validate_step_rate();
+            return validate_step_rate('lot-step');
         },
         'lot-date' => function () {
-            return validate_date_end();
+            return validate_date_end('lot-date');
         }
     ];
 

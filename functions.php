@@ -24,8 +24,8 @@ function is_date_valid(string $date) : bool
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
  *
- * @param $link mysqli Ресурс соединения
- * @param $sql string SQL запрос с плейсхолдерами вместо значений
+ * @param mysqli $link Ресурс соединения
+ * @param string $sql SQL запрос с плейсхолдерами вместо значений
  * @param array $data Данные для вставки на место плейсхолдеров
  *
  * @return mysqli_stmt Подготовленное выражение
@@ -124,6 +124,7 @@ function get_noun_plural_form(int $number, string $one, string $two, string $man
  * Подключает шаблон, передает туда данные и возвращает итоговый HTML контент
  * @param string $name Путь к файлу шаблона относительно папки templates
  * @param array $data Ассоциативный массив с данными для шаблона
+ *
  * @return string Итоговый HTML
  */
 function include_template($name, array $data = [])
@@ -144,6 +145,14 @@ function include_template($name, array $data = [])
     return $result;
 }
 
+/**
+ * Форматирует переданную сумму, отделяет пробелом каждые три цифры и
+ * добавляет к ней знак рубля
+ *
+ * @param float $number Сумма в виде числа
+ *
+ * @return string $sum Oтформатированная сумма вместе со знаком рубля
+ */
 function format_sum($number)
 {
     $number_rounded = ceil($number);
@@ -158,6 +167,14 @@ function format_sum($number)
     return $sum;
 };
 
+/**
+ * Представляет дату в формате 'ЧЧ:ММ'
+ *
+ * @param string $date Дата в формате 'ГГГГ-ММ-ДД'
+ *
+ * @return array $result Массив, где первый элемент — целое количество часов,
+ * а второй — остаток в минутах
+ */
 function get_date_range($date)
 {
     $result = [];
@@ -179,6 +196,14 @@ function get_date_range($date)
     return $result;
 };
 
+/**
+ * Позволяет получить данные из базы данных по SQL запросу
+ *
+ * @param mysqli $link Ресурс соединения
+ * @param string $sql SQL запрос
+ *
+ * @return array $data Двумерный ассоциативный массив с данными
+ */
 function db_select_data($link, $sql)
 {
     $data = [];
@@ -194,6 +219,13 @@ function db_select_data($link, $sql)
     return $data;
 };
 
+/**
+ * Показывает страницу с ошибкой 404
+ *
+ * @param array $categories Массив с данными, полученными из базы данных из таблицы categories
+ *
+ * @return Страница с ошибкой 404
+ */
 function show_page_404($categories)
 {
     $page_content = include_template('404.php', ['categories' => $categories]);
@@ -207,11 +239,28 @@ function show_page_404($categories)
     print($layout_content);
 };
 
+/**
+ * Возвращает данные из массива $_POST
+ *
+ * @param string $name Имя ключа из массива $_POST
+ *
+ * @return string Данные из массива $_POST, если они там есть,
+ * иначе пустая строка
+ */
 function get_post_val($name)
 {
     return $_POST[$name] ?? '';
 };
 
+/**
+ * Проверяет существует ли переданная через форму категория
+ *
+ * @param string $name Имя ключа из массива $_POST
+ * @param array $allowed_list Массив из возможных значений ключа $name
+ *
+ * @return В случае, если проверка прошла успешно возвращает null,
+ * иначе сообщение об ошибке
+ */
 function validate_category($name, $allowed_list)
 {
     $id = $_POST[$name];
@@ -223,9 +272,17 @@ function validate_category($name, $allowed_list)
     return null;
 };
 
-function validate_cost_start()
+/**
+ * Проверяет, что переданная через форму цена является числом больше нуля
+ *
+ * @param string $name Имя ключа из массива $_POST
+ *
+ * @return В случае, если проверка прошла успешно возвращает null,
+ * иначе сообщение об ошибке
+ */
+function validate_cost_start($name)
 {
-    $cost_start = $_POST['lot-rate'];
+    $cost_start = $_POST[$name];
 
     if (!(is_numeric($cost_start) && $cost_start > 0)) {
         return 'Начальная цена должна быть числом больше нуля';
@@ -234,9 +291,17 @@ function validate_cost_start()
     return null;
 };
 
-function validate_step_rate()
+/**
+ * Проверяет, что переданный через форму шаг ставки является целым числом больше нуля
+ *
+ * @param string $name Имя ключа из массива $_POST
+ *
+ * @return В случае, если проверка прошла успешно возвращает null,
+ * иначе сообщение об ошибке
+ */
+function validate_step_rate($name)
 {
-    $step_rate = $_POST['lot-step'];
+    $step_rate = $_POST[$name];
     $options = array(
         'options' => array(
             'min_range' => 1
@@ -250,9 +315,18 @@ function validate_step_rate()
     return null;
 };
 
-function validate_date_end()
+/**
+ * Проверяет, что переданная через форму дата соответствует формату ГГГГ-ММ-ДД и
+ * больше текущей даты минимум на одни сутки
+ *
+ * @param string $name Имя ключа из массива $_POST
+ *
+ * @return В случае, если проверка прошла успешно возвращает null,
+ * иначе сообщение об ошибке
+ */
+function validate_date_end($name)
 {
-    $date_end = $_POST['lot-date'];
+    $date_end = $_POST[$name];
     $date_end_unix = strtotime($date_end);
     $date_now_unix = strtotime('now');
     $diff = $date_end_unix - $date_now_unix;
@@ -264,6 +338,15 @@ function validate_date_end()
     return null;
 };
 
+/**
+ * Проверяет, что переданная через форму ставка является целым положительным числом
+ * больше или равно минимальной ставке
+ *
+ * @param integer $cost_min Минимальная ставка
+ *
+ * @return В случае, если проверка прошла успешно возвращает null,
+ * иначе сообщение об ошибке
+ */
 function validate_rate($cost_min)
 {
     $rate = $_POST['cost'];
@@ -280,6 +363,13 @@ function validate_rate($cost_min)
     return null;
 }
 
+/**
+ * Возвращает уникальное имя файла в зависимости от его MIME-типа
+ *
+ * @param string $file_type MIME-тип файла: image/png или image/jpeg
+ *
+ * @return string $filename Уникальное имя файла
+ */
 function get_filename($file_type)
 {
     $filename = '';
@@ -295,14 +385,29 @@ function get_filename($file_type)
     return $filename;
 };
 
+/**
+ * Возвращает все данные из базы данных из таблицы categories
+ *
+ * @param mysqli $link Ресурс соединения
+ *
+ * @return array $categories Двумерный ассоциативный массив с данными
+ */
 function get_categories($link)
 {
-    $sql = 'SELECT id, name, code FROM categories';
+    $sql = 'SELECT * FROM categories';
     $categories = db_select_data($link, $sql);
 
     return $categories;
 };
 
+/**
+ * Возвращает данные о последней ставке по конкретному лоту из базы данных
+ *
+ * @param mysqli $link Ресурс соединения
+ * @param integer $id id лота
+ *
+ * @return array $rate_last Ассоциативный массив с данными
+ */
 function get_rate_last($link, $id)
 {
     $rate_last = [];
@@ -321,6 +426,14 @@ function get_rate_last($link, $id)
     return $rate_last;
 };
 
+/**
+ * Возвращает данные о всех ставках по конкретному лоту из базы данных
+ *
+ * @param mysqli $link Ресурс соединения
+ * @param integer $id id лота
+ *
+ * @return array $history Двумерный ассоциативный массив с данными
+ */
 function get_history($link, $id)
 {
     $history = [];
@@ -342,6 +455,14 @@ function get_history($link, $id)
     return $history;
 };
 
+/**
+ * Возвращает дату в человеческом формате
+ *
+ * @param string $date Дата
+ *
+ * @return string $result Дата в человеческом формате
+ * (5 минут назад, 2 часа назад, Вчера, в 19:30, 11.09.19 в 18:05 и т.д.)
+ */
 function get_date_rate($date)
 {
     $date_add = strtotime($date);
@@ -369,4 +490,4 @@ function get_date_rate($date)
     }
 
     return $result;
-}
+};
