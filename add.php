@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
 
     $rules = [
+        'lot-name' => function () {
+            return validate_length('lot-name', 1, 150);
+        },
         'category' => function () use ($cats_ids) {
             return validate_category('category', $cats_ids);
         },
@@ -80,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: lot.php?id=' . $lot_id);
             die();
         } else {
-            $error = mysquli_error($link);
+            $error = mysqli_error($link);
             print('Ошибка: ' . $error);
         }
     }

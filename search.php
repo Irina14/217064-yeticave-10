@@ -23,7 +23,7 @@ if ($search) {
         $items_count = mysqli_fetch_assoc($result)['count'];
     }
     else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 
@@ -44,7 +44,7 @@ if ($search) {
         $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 }

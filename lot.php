@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
         $lot = mysqli_fetch_assoc($result);
     }
     else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 
@@ -92,7 +92,7 @@ if (isset($_GET['id'])) {
                 'user_rate_last' => $user_rate_last
             ]);
         } elseif (!$result) {
-            $error = mysquli_error($link);
+            $error = mysqli_error($link);
             print('Ошибка: ' . $error);
         }
     }

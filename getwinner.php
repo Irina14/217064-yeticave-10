@@ -8,7 +8,7 @@ $transport->setUsername('keks@phpdemo.ru');
 $transport->setPassword('htmlacademy');
 $mailer = new Swift_Mailer($transport);
 
-$sql = 'SELECT id FROM lots WHERE date_end <= NOW()';
+$sql = 'SELECT id FROM lots WHERE date_end <= NOW() AND winner_id = 0';
 $lots_end = db_select_data($link, $sql);
 
 foreach ($lots_end as $value) {
@@ -29,7 +29,7 @@ foreach ($lots_end as $value) {
             if ($result) {
                 $lot = mysqli_fetch_assoc($result);
             } else {
-                $error = mysquli_error($link);
+                $error = mysqli_error($link);
                 print('Ошибка: ' . $error);
             }
 
@@ -47,7 +47,7 @@ foreach ($lots_end as $value) {
                 print('Не удалось отправить рассылку');
             }
         } else {
-            $error = mysquli_error($link);
+            $error = mysqli_error($link);
             print('Ошибка: ' . $error);
         }
     }

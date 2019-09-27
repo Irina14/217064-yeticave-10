@@ -2,6 +2,12 @@
 require_once('functions.php');
 require_once('init.php');
 
+if (!isset($_SESSION['user'])) {
+    http_response_code(403);
+    print('Ошибка доступа: Требуется войти в свою учетную запись!');
+    die();
+}
+
 $categories = get_categories($link);
 $rates = [];
 
@@ -20,7 +26,7 @@ if ($result) {
     $rates = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 else {
-    $error = mysquli_error($link);
+    $error = mysqli_error($link);
     print('Ошибка: ' . $error);
 }
 

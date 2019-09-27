@@ -14,7 +14,7 @@ $page_items = 9;
 if ($category) {
     $sql = 'SELECT COUNT(*) as count FROM lots l '
          . 'JOIN categories c ON l.category_id = c.id '
-         . 'WHERE c.name = ?';
+         . 'WHERE c.name = ? AND date_end > NOW()';
 
     $stmt = db_get_prepare_stmt($link, $sql, [$category]);
     mysqli_stmt_execute($stmt);
@@ -23,7 +23,7 @@ if ($category) {
     if ($result) {
         $items_count = mysqli_fetch_assoc($result)['count'];
     } else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 
@@ -33,7 +33,7 @@ if ($category) {
 
     $sql = 'SELECT l.name, image, c.name AS category, cost_start, step_rate, date_end, l.id FROM lots l '
          . 'JOIN categories c ON l.category_id = c.id '
-         . 'WHERE c.name = ? '
+         . 'WHERE c.name = ? AND date_end > NOW() '
          . 'ORDER BY date_add DESC LIMIT ' . $page_items . ' OFFSET ' . $offset;
 
     $stmt = db_get_prepare_stmt($link, $sql, [$category]);
@@ -43,7 +43,7 @@ if ($category) {
     if ($result) {
         $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 }

@@ -212,7 +212,7 @@ function db_select_data($link, $sql)
     if ($result) {
         $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 
@@ -228,6 +228,7 @@ function db_select_data($link, $sql)
  */
 function show_page_404($categories)
 {
+    http_response_code(404);
     $page_content = include_template('404.php', ['categories' => $categories]);
 
     $layout_content = include_template('layout.php', [
@@ -364,6 +365,26 @@ function validate_rate($cost_min)
 }
 
 /**
+ * Проверяет длину переданного через форму значения
+ *
+ * @param string $name Имя ключа из массива $_POST
+ * @param integer $min Минимальная длина
+ * @param integer $max Максимальная длина
+ *
+ * @return В случае, если проверка прошла успешно возвращает null,
+ * иначе сообщение об ошибке
+ */
+function validate_length($name, $min, $max) {
+    $length = strlen($_POST[$name]);
+
+    if ($length < $min || $length > $max) {
+        return "Значение должно быть от $min до $max символов";
+    }
+
+    return null;
+}
+
+/**
  * Возвращает уникальное имя файла в зависимости от его MIME-типа
  *
  * @param string $file_type MIME-тип файла: image/png или image/jpeg
@@ -419,7 +440,7 @@ function get_rate_last($link, $id)
     if ($result) {
         $rate_last = mysqli_fetch_assoc($result);
     } else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 
@@ -448,7 +469,7 @@ function get_history($link, $id)
     if ($result) {
         $history = mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
-        $error = mysquli_error($link);
+        $error = mysqli_error($link);
         print('Ошибка: ' . $error);
     }
 

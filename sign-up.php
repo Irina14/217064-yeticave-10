@@ -19,11 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['email'] = 'Некорректный email';
     }
 
+    $errors['name'] = validate_length('name', 1, 50);
+    $errors['message'] = validate_length('message', 5, 200);
+
     foreach ($required as $key) {
         if (empty($form[$key])) {
             $errors[$key] = 'Заполните это поле';
         }
     }
+
+    $errors = array_filter($errors);
 
     if (empty($errors)) {
         $email = mysqli_real_escape_string($link, $form['email']);
