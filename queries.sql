@@ -12,9 +12,9 @@ INSERT INTO categories
 SET name = 'Разное', code = 'other';
 
 INSERT INTO users
-SET date_add = '2019-07-21 14:15:00', email = 'ann86@mail.ru', name = 'Ann', password = '147ann975!', avatar = 'https://k367.net/16178DF.jpg', contact = '8-913-788-87-77';
+SET date_add = '2019-07-21 14:15:00', email = 'ann86@mail.ru', name = 'Ann', password = '147ann975!', contact = '8-913-788-87-77';
 INSERT INTO users
-SET date_add = '2019-08-10 09:21:45', email = 'van91@bk.ru', name = 'John', password = '19adhk28!', avatar = 'https://k235.net/458932DF.jpg', contact = '8-913-000-11-22';
+SET date_add = '2019-08-10 09:21:45', email = 'van91@bk.ru', name = 'John', password = '19adhk28!', contact = '8-913-000-11-22';
 
 INSERT INTO lots
 SET category_id = '1', user_id = '1', date_add = '2019-07-21 15:15:00', name = '2014 Rossignol District Snowboard', description = 'Легкий маневренный сноуборд, готовый дать жару в любом парке, растопив снег мощным щелчкоми четкими дугами.', image = 'img/lot-1.jpg', cost_start = '10999', date_end = '2019-08-25 00:00:00', step_rate = '1000';

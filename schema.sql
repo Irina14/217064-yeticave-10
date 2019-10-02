@@ -41,8 +41,6 @@ CREATE TABLE users (
   contact CHAR(255) NOT NULL
 );
 
-CREATE UNIQUE INDEX email ON users(email);
-CREATE UNIQUE INDEX name ON categories(name);
 CREATE INDEX date_add ON lots(date_add);
 CREATE INDEX date_end ON lots(date_end);
 CREATE INDEX date_add ON rates(date_add);
